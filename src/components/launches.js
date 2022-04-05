@@ -1,5 +1,5 @@
 import React from "react";
-import { Badge, Box, Image, SimpleGrid, Text, Flex } from "@chakra-ui/core";
+import { Badge, Box, Image, SimpleGrid, Text, Flex } from "@chakra-ui/react";
 import { format as timeAgo } from "timeago.js";
 import { Link } from "react-router-dom";
 
@@ -8,6 +8,7 @@ import { formatDate } from "../utils/format-date";
 import Error from "./error";
 import Breadcrumbs from "./breadcrumbs";
 import LoadMoreButton from "./load-more-button";
+import FavouriteButton from "./favourite-button";
 
 const PAGE_SIZE = 12;
 
@@ -31,7 +32,7 @@ export default function Launches() {
         {data &&
           data
             .flat()
-            .map((launch) => (
+            .map((launch, index) => (
               <LaunchItem launch={launch} key={launch.flight_number} />
             ))}
       </SimpleGrid>
@@ -46,6 +47,7 @@ export default function Launches() {
 }
 
 export function LaunchItem({ launch }) {
+
   return (
     <Box
       as={Link}
@@ -79,42 +81,50 @@ export function LaunchItem({ launch }) {
       />
 
       <Box p="6">
-        <Box d="flex" alignItems="baseline">
-          {launch.launch_success ? (
-            <Badge px="2" variant="solid" variantColor="green">
-              Successful
-            </Badge>
-          ) : (
-            <Badge px="2" variant="solid" variantColor="red">
-              Failed
-            </Badge>
-          )}
-          <Box
-            color="gray.500"
-            fontWeight="semibold"
-            letterSpacing="wide"
-            fontSize="xs"
-            textTransform="uppercase"
-            ml="2"
-          >
-            {launch.rocket.rocket_name} &bull; {launch.launch_site.site_name}
-          </Box>
-        </Box>
+        <Flex justifyContent={"space-between"}>
+          <Box>
+            <Box d="flex" alignItems="baseline">
+              {launch.launch_success ? (
+                <Badge px="2" variant="solid" colorScheme="green">
+                  Successful
+                </Badge>
+              ) : (
+                <Badge px="2" variant="solid" colorScheme="red">
+                  Failed
+                </Badge>
+              )}
+              <Box
+                color="gray.500"
+                fontWeight="semibold"
+                letterSpacing="wide"
+                fontSize="xs"
+                textTransform="uppercase"
+                ml="2"
+              >
+                {launch.rocket.rocket_name} &bull;{" "}
+                {launch.launch_site.site_name}
+              </Box>
+            </Box>
 
-        <Box
-          mt="1"
-          fontWeight="semibold"
-          as="h4"
-          lineHeight="tight"
-          isTruncated
-        >
-          {launch.mission_name}
-        </Box>
-        <Flex>
-          <Text fontSize="sm">{formatDate(launch.launch_date_utc)} </Text>
-          <Text color="gray.500" ml="2" fontSize="sm">
-            {timeAgo(launch.launch_date_utc)}
-          </Text>
+            <Box
+              mt="1"
+              fontWeight="semibold"
+              as="h4"
+              lineHeight="tight"
+              isTruncated
+            >
+              {launch.mission_name}
+            </Box>
+            <Flex>
+              <Text fontSize="sm">{formatDate(launch.launch_date_utc)} </Text>
+              <Text color="gray.500" ml="2" fontSize="sm">
+                {timeAgo(launch.launch_date_utc)}
+              </Text>
+            </Flex>
+          </Box>
+          <Box maxWidth={70}>
+            <FavouriteButton isFavourite={true} toggleFavourite={()=>{console.log('favourite toggled')}}/>
+          </Box>
         </Flex>
       </Box>
     </Box>

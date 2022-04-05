@@ -2,6 +2,11 @@ import React from "react";
 import { useParams, Link as RouterLink } from "react-router-dom";
 import { format as timeAgo } from "timeago.js";
 import { Watch, MapPin, Navigation, Layers } from "react-feather";
+
+import { useSpaceX } from "../utils/use-space-x";
+import { formatDateTime } from "../utils/format-date";
+import Error from "./error";
+import Breadcrumbs from "./breadcrumbs";
 import {
   Flex,
   Heading,
@@ -17,15 +22,10 @@ import {
   Image,
   Link,
   Stack,
-  AspectRatioBox,
   StatGroup,
   Tooltip,
-} from "@chakra-ui/core";
-
-import { useSpaceX } from "../utils/use-space-x";
-import { formatDateTime } from "../utils/format-date";
-import Error from "./error";
-import Breadcrumbs from "./breadcrumbs";
+  AspectRatio,
+} from "@chakra-ui/react";
 
 export default function Launch() {
   let { launchId } = useParams();
@@ -97,15 +97,15 @@ function Header({ launch }) {
         {launch.mission_name}
       </Heading>
       <Stack isInline spacing="3">
-        <Badge variantColor="purple" fontSize={["xs", "md"]}>
+        <Badge colorScheme="purple" fontSize={["xs", "md"]}>
           #{launch.flight_number}
         </Badge>
         {launch.launch_success ? (
-          <Badge variantColor="green" fontSize={["xs", "md"]}>
+          <Badge colorScheme="green" fontSize={["xs", "md"]}>
             Successful
           </Badge>
         ) : (
-          <Badge variantColor="red" fontSize={["xs", "md"]}>
+          <Badge colorScheme="red" fontSize={["xs", "md"]}>
             Failed
           </Badge>
         )}
@@ -221,14 +221,14 @@ function RocketInfo({ launch }) {
 
 function Video({ launch }) {
   return (
-    <AspectRatioBox maxH="400px" ratio={1.7}>
+    <AspectRatio maxH="400px" ratio={1.7}>
       <Box
         as="iframe"
         title={launch.mission_name}
         src={`https://www.youtube.com/embed/${launch.links.youtube_id}`}
         allowFullScreen
       />
-    </AspectRatioBox>
+    </AspectRatio>
   );
 }
 
