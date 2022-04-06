@@ -18,14 +18,15 @@ export default class App extends React.Component {
       const isFavourite = this.state.favouriteLaunches.includes(id);
       let newFavourites = this.state.favouriteLaunches;
 
-      if(isFavourite){
-        newFavourites = newFavourites.filter((launchID) => launchID !== id)
-      }else{
-        newFavourites.push(id)
+      if (isFavourite) {
+        newFavourites = newFavourites.filter((launchID) => launchID !== id);
+      } else {
+        newFavourites.push(id);
       }
       this.setState((state) => ({
-        favouriteLaunches: newFavourites
+        favouriteLaunches: newFavourites,
       }));
+      localStorage.setItem("favouriteLaunches", JSON.stringify(newFavourites));
     };
 
     this.toggleFavouritePad = (id) => {
@@ -40,11 +41,18 @@ export default class App extends React.Component {
       this.setState((state) => ({
         favouriteLaunchPads: newFavourites,
       }));
+      localStorage.setItem(
+        "favouriteLaunchPads",
+        JSON.stringify(newFavourites)
+      );
     };
 
+    const storedFavLaunches = localStorage.getItem("favouriteLaunches");
+    const storedFavLaunchPads = localStorage.getItem("favouriteLaunchPads");
+    console.log(storedFavLaunches, storedFavLaunchPads);
     this.state = {
-      favouriteLaunches: [],
-      favouriteLaunchPads: [],
+      favouriteLaunches: storedFavLaunches ? JSON.parse(storedFavLaunches) : [],
+      favouriteLaunchPads: storedFavLaunchPads ? JSON.parse(storedFavLaunchPads) : [],
       toggleFavouriteLaunch: this.toggleFavouriteLaunch,
       toggleFavouritePad: this.toggleFavouritePad,
     };
@@ -64,8 +72,8 @@ export default class App extends React.Component {
           </Routes>
         </div>
       </FavouritesContext.Provider>
-    )
-  };
+    );
+  }
 }
 
 function NavBar() {
