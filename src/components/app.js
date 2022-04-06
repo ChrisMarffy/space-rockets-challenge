@@ -8,19 +8,64 @@ import Home from "./home";
 import LaunchPads from "./launch-pads";
 import LaunchPad from "./launch-pad";
 
-export default function App() {
-  return (
-    <div>
-      <NavBar />
-      <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/launches" element={<Launches />} />
-        <Route path="/launches/:launchId" element={<Launch />} />
-        <Route path="/launch-pads" element={<LaunchPads />} />
-        <Route path="/launch-pads/:launchPadId" element={<LaunchPad />} />
-      </Routes>
-    </div>
-  );
+export const FavouritesContext = React.createContext();
+
+export default class App extends React.Component {
+  constructor(props) {
+    super(props);
+
+    this.toggleFavouriteLaunch = (id) => {
+      const isFavourite = this.state.favouriteLaunches.includes(id);
+      let newFavourites = this.state.favouriteLaunches;
+
+      if(isFavourite){
+        newFavourites = newFavourites.filter((launchID) => launchID !== id)
+      }else{
+        newFavourites.push(id)
+      }
+      this.setState((state) => ({
+        favouriteLaunches: newFavourites
+      }));
+    };
+
+    this.toggleFavouritePad = (id) => {
+      const isFavourite = this.state.favouriteLaunchPads.includes(id);
+      let newFavourites = this.state.favouriteLaunchPads;
+
+      if (isFavourite) {
+        newFavourites = newFavourites.filter((launchID) => launchID !== id);
+      } else {
+        newFavourites.push(id);
+      }
+      this.setState((state) => ({
+        favouriteLaunchPads: newFavourites,
+      }));
+    };
+
+    this.state = {
+      favouriteLaunches: [],
+      favouriteLaunchPads: [],
+      toggleFavouriteLaunch: this.toggleFavouriteLaunch,
+      toggleFavouritePad: this.toggleFavouritePad,
+    };
+  }
+
+  render() {
+    return (
+      <FavouritesContext.Provider value={this.state}>
+        <div>
+          <NavBar />
+          <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="/launches" element={<Launches />} />
+            <Route path="/launches/:launchId" element={<Launch />} />
+            <Route path="/launch-pads" element={<LaunchPads />} />
+            <Route path="/launch-pads/:launchPadId" element={<LaunchPad />} />
+          </Routes>
+        </div>
+      </FavouritesContext.Provider>
+    )
+  };
 }
 
 function NavBar() {

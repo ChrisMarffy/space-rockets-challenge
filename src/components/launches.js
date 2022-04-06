@@ -123,7 +123,10 @@ export function LaunchItem({ launch }) {
             </Flex>
           </Box>
           <Box maxWidth={70}>
-            <FavouriteButton isFavourite={true} toggleFavourite={()=>{console.log('favourite toggled')}}/>
+            <FavouriteButton
+              itemId={launch.flight_number}
+              type='launch'
+            />
           </Box>
         </Flex>
       </Box>
