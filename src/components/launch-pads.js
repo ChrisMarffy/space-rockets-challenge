@@ -6,6 +6,7 @@ import Error from "./error";
 import Breadcrumbs from "./breadcrumbs";
 import LoadMoreButton from "./load-more-button";
 import { useSpaceXPaginated } from "../utils/use-space-x";
+import FavouriteButton from "./favourite-button";
 
 const PAGE_SIZE = 12;
 
@@ -51,6 +52,7 @@ function LaunchPadItem({ launchPad }) {
       rounded="lg"
       overflow="hidden"
       position="relative"
+      d="flex"
     >
       <Box p="6">
         <Box d="flex" alignItems="baseline">
@@ -75,7 +77,6 @@ function LaunchPadItem({ launchPad }) {
             {launchPad.successful_launches} succeeded
           </Box>
         </Box>
-
         <Box
           mt="1"
           fontWeight="semibold"
@@ -88,6 +89,9 @@ function LaunchPadItem({ launchPad }) {
         <Text color="gray.500" fontSize="sm">
           {launchPad.vehicles_launched.join(", ")}
         </Text>
+      </Box>
+      <Box p="6">
+        <FavouriteButton itemId={launchPad.site_id} type="pad" />
       </Box>
     </Box>
   );

@@ -26,6 +26,7 @@ import {
   Tooltip,
   AspectRatio,
 } from "@chakra-ui/react";
+import FavouriteButton from "./favourite-button";
 
 export default function Launch() {
   let { launchId } = useParams();
@@ -85,6 +86,13 @@ function Header({ launch }) {
         objectFit="contain"
         objectPosition="bottom"
       />
+      <Box
+        position="absolute"
+        top="5"
+        right="5"
+      >
+        <FavouriteButton itemId={launch.flight_number} type="launch" />
+      </Box>
       <Heading
         color="white"
         display="inline"
