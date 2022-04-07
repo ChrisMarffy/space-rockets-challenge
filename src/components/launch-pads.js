@@ -1,11 +1,12 @@
 import React from "react";
-import { Badge, Box, SimpleGrid, Text } from "@chakra-ui/core";
+import { Badge, Box, SimpleGrid, Text } from "@chakra-ui/react";
 import { Link } from "react-router-dom";
 
 import Error from "./error";
 import Breadcrumbs from "./breadcrumbs";
 import LoadMoreButton from "./load-more-button";
 import { useSpaceXPaginated } from "../utils/use-space-x";
+import FavouriteButton from "./favourite-button";
 
 const PAGE_SIZE = 12;
 
@@ -41,7 +42,7 @@ export default function LaunchPads() {
   );
 }
 
-function LaunchPadItem({ launchPad }) {
+export function LaunchPadItem({ launchPad }) {
   return (
     <Box
       as={Link}
@@ -51,15 +52,16 @@ function LaunchPadItem({ launchPad }) {
       rounded="lg"
       overflow="hidden"
       position="relative"
+      d="flex"
     >
       <Box p="6">
         <Box d="flex" alignItems="baseline">
           {launchPad.status === "active" ? (
-            <Badge px="2" variant="solid" variantColor="green">
+            <Badge px="2" variant="solid" colorScheme="green">
               Active
             </Badge>
           ) : (
-            <Badge px="2" variant="solid" variantColor="red">
+            <Badge px="2" variant="solid" colorScheme="red">
               Retired
             </Badge>
           )}
@@ -75,7 +77,6 @@ function LaunchPadItem({ launchPad }) {
             {launchPad.successful_launches} succeeded
           </Box>
         </Box>
-
         <Box
           mt="1"
           fontWeight="semibold"
@@ -88,6 +89,9 @@ function LaunchPadItem({ launchPad }) {
         <Text color="gray.500" fontSize="sm">
           {launchPad.vehicles_launched.join(", ")}
         </Text>
+      </Box>
+      <Box p="6">
+        <FavouriteButton item={launchPad} type="pad" />
       </Box>
     </Box>
   );

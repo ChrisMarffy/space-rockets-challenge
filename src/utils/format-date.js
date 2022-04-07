@@ -34,7 +34,7 @@ export function formatDateTime(timestamp, keepSourceTimeZone=false) {
     )} UCT${timeZoneString}`;
   }else{
 
-    //Retur date with the users local timezone included
+    //Return date with the users local timezone included
     return new Intl.DateTimeFormat("en-US", {
       ...dateFormatOptions,
       timeZoneName: "short",
