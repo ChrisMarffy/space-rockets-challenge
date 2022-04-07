@@ -1,13 +1,20 @@
 import React from "react";
 import { Routes, Route } from "react-router-dom";
-import { Button, Flex, Text, useDisclosure } from "@chakra-ui/react";
+import {
+  Button,
+  Flex,
+  IconButton,
+  Text,
+  useColorMode,
+  useDisclosure,
+} from "@chakra-ui/react";
 import Launches from "./launches";
 import Launch from "./launch";
 import Home from "./home";
 import LaunchPads from "./launch-pads";
 import LaunchPad from "./launch-pad";
 import FavouritesDrawer from "./favourites-drawer";
-import { Star } from "react-feather";
+import { Moon, Star, Sun, Sunrise, Sunset } from "react-feather";
 import AppFavouritesContext from "./favourites-context";
 
 export default function App() {
@@ -31,6 +38,8 @@ export default function App() {
 }
 
 function NavBar({ onFavouritesOpen }: { onFavouritesOpen: () => void }) {
+  const { colorMode, toggleColorMode } = useColorMode();
+
   return (
     <Flex
       as="nav"
@@ -49,6 +58,13 @@ function NavBar({ onFavouritesOpen }: { onFavouritesOpen: () => void }) {
       >
         ¡SPACE·R0CKETS!
       </Text>
+      <IconButton
+        onClick={toggleColorMode}
+        aria-label="Toggle Dark Mode"
+        variant="ghost"
+        colorScheme="blue"
+        icon={colorMode === "light" ? <Moon /> : <Sun />}
+      ></IconButton>
       <Button
         leftIcon={<Star />}
         colorScheme="teal"
