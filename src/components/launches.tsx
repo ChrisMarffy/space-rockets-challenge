@@ -10,6 +10,8 @@ import Breadcrumbs from "./breadcrumbs";
 import LoadMoreButton from "./load-more-button";
 import FavouriteButton from "./favourite-button";
 
+import { ILaunch } from "../models/launch.model";
+
 const PAGE_SIZE = 12;
 
 export default function Launches() {
@@ -37,7 +39,9 @@ export default function Launches() {
             ))}
       </SimpleGrid>
       <LoadMoreButton
-        loadMore={() => setSize(size + 1)}
+        loadMore={() => {
+          if (setSize) setSize(size || 0 + 1);
+        }}
         data={data}
         pageSize={PAGE_SIZE}
         isLoadingMore={isValidating}
@@ -46,7 +50,7 @@ export default function Launches() {
   );
 }
 
-export function LaunchItem({ launch }) {
+export function LaunchItem({ launch }: { launch: ILaunch }) {
   return (
     <Box
       as={Link}

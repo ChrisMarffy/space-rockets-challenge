@@ -1,4 +1,5 @@
-export function formatDate(timestamp) {
+
+export function formatDate(timestamp: string) {
   return new Intl.DateTimeFormat("en-US", {
     weekday: "long",
     year: "numeric",
@@ -15,7 +16,7 @@ export function formatDate(timestamp) {
  * specified in the ISO offset (true), or the users local timezone (false, default)
  * @returns 
  */
-export function formatDateTime(timestamp, keepSourceTimeZone=false) {
+export function formatDateTime(timestamp: string, keepSourceTimeZone=false) {
   const dateFormatOptions = {
     year: "numeric",
     month: "long",
@@ -23,10 +24,11 @@ export function formatDateTime(timestamp, keepSourceTimeZone=false) {
     hour: "numeric",
     minute: "numeric",
     second: "numeric",
-  };
+  } as const;
+
   if(keepSourceTimeZone){
-    const timeStampWithNoZone = timestamp.substr(0, 19);
-    const timeZoneString = timestamp.substr(19);
+    const timeStampWithNoZone = timestamp.substring(0, 19);
+    const timeZoneString = timestamp.substring(19);
 
     //Return date without timezone + the seperated offset string
     return `${new Intl.DateTimeFormat("en-US", dateFormatOptions).format(

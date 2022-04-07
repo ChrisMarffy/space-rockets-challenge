@@ -8,7 +8,12 @@ import {
 import { Link } from "react-router-dom";
 import { ChevronsRight } from "react-feather";
 
-export default function Breadcrumbs({ items }) {
+interface BreadcrumbItem {
+  label: string;
+  to?: any;
+}
+
+export default function Breadcrumbs({ items }: { items: BreadcrumbItem[] }) {
   return (
     <Breadcrumb
       m="6"
