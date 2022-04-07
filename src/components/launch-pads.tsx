@@ -7,6 +7,7 @@ import Breadcrumbs from "./breadcrumbs";
 import LoadMoreButton from "./load-more-button";
 import { useSpaceXPaginated } from "../utils/use-space-x";
 import FavouriteButton from "./favourite-button";
+import { ILaunchPad } from "../models/launch-pad.model";
 
 const PAGE_SIZE = 12;
 
@@ -33,7 +34,9 @@ export default function LaunchPads() {
             ))}
       </SimpleGrid>
       <LoadMoreButton
-        loadMore={() => setSize(size + 1)}
+        loadMore={() => {
+          if (setSize) setSize(size || 0 + 1);
+        }}
         data={data}
         pageSize={PAGE_SIZE}
         isLoadingMore={isValidating}
@@ -42,7 +45,7 @@ export default function LaunchPads() {
   );
 }
 
-export function LaunchPadItem({ launchPad }) {
+export function LaunchPadItem({ launchPad }: { launchPad: ILaunchPad }) {
   return (
     <Box
       as={Link}

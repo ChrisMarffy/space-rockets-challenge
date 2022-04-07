@@ -27,9 +27,10 @@ import {
   AspectRatio,
 } from "@chakra-ui/react";
 import FavouriteButton from "./favourite-button";
+import { ILaunch } from "../models/launch.model";
 
 export default function Launch() {
-  let { launchId } = useParams();
+  let { launchId } = useParams<{ launchId: string }>();
   const { data: launch, error } = useSpaceX(`/launches/${launchId}`);
 
   if (error) return <Error />;
@@ -64,7 +65,7 @@ export default function Launch() {
   );
 }
 
-function Header({ launch }) {
+function Header({ launch }: { launch: ILaunch }) {
   return (
     <Flex
       bgImage={`url(${launch.links.flickr_images[0]})`}
@@ -86,11 +87,7 @@ function Header({ launch }) {
         objectFit="contain"
         objectPosition="bottom"
       />
-      <Box
-        position="absolute"
-        top="5"
-        right="5"
-      >
+      <Box position="absolute" top="5" right="5">
         <FavouriteButton item={launch} type="launch" />
       </Box>
       <Heading
@@ -122,7 +119,7 @@ function Header({ launch }) {
   );
 }
 
-function TimeAndLocation({ launch }) {
+function TimeAndLocation({ launch }: { launch: ILaunch }) {
   return (
     <SimpleGrid columns={[1, 1, 2]} borderWidth="1px" p="4" borderRadius="md">
       <Stat>
@@ -162,7 +159,7 @@ function TimeAndLocation({ launch }) {
   );
 }
 
-function RocketInfo({ launch }) {
+function RocketInfo({ launch }: { launch: ILaunch }) {
   const cores = launch.rocket.first_stage.cores;
 
   return (
@@ -226,7 +223,7 @@ function RocketInfo({ launch }) {
   );
 }
 
-function Video({ launch }) {
+function Video({ launch }: { launch: ILaunch }) {
   return (
     <AspectRatio maxH="400px" ratio={1.7}>
       <Box
@@ -239,7 +236,7 @@ function Video({ launch }) {
   );
 }
 
-function Gallery({ images }) {
+function Gallery({ images }: { images: string[] }) {
   return (
     <SimpleGrid my="6" minChildWidth="350px" spacing="4">
       {images.map((image) => (

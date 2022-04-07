@@ -10,30 +10,27 @@ import FavouritesDrawer from "./favourites-drawer";
 import { Star } from "react-feather";
 import AppFavouritesContext from "./favourites-context";
 
+export default function App() {
+  const { isOpen, onOpen, onClose } = useDisclosure();
 
-
-export default function App () {
-
-    const { isOpen, onOpen, onClose } = useDisclosure();
-
-    return (
-      <AppFavouritesContext>
-        <FavouritesDrawer isOpen={isOpen} onClose={onClose}></FavouritesDrawer>
-        <div>
-          <NavBar onFavouritesOpen={onOpen} />
-          <Routes>
-            <Route path="/" element={<Home />} />
-            <Route path="/launches" element={<Launches />} />
-            <Route path="/launches/:launchId" element={<Launch />} />
-            <Route path="/launch-pads" element={<LaunchPads />} />
-            <Route path="/launch-pads/:launchPadId" element={<LaunchPad />} />
-          </Routes>
-        </div>
-      </AppFavouritesContext>
-    );
+  return (
+    <AppFavouritesContext>
+      <FavouritesDrawer isOpen={isOpen} onClose={onClose}></FavouritesDrawer>
+      <div>
+        <NavBar onFavouritesOpen={onOpen} />
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/launches" element={<Launches />} />
+          <Route path="/launches/:launchId" element={<Launch />} />
+          <Route path="/launch-pads" element={<LaunchPads />} />
+          <Route path="/launch-pads/:launchPadId" element={<LaunchPad />} />
+        </Routes>
+      </div>
+    </AppFavouritesContext>
+  );
 }
 
-function NavBar({onFavouritesOpen}) {
+function NavBar({ onFavouritesOpen }: { onFavouritesOpen: () => void }) {
   return (
     <Flex
       as="nav"

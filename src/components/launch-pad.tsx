@@ -22,12 +22,14 @@ import Error from "./error";
 import Breadcrumbs from "./breadcrumbs";
 import { LaunchItem } from "./launches";
 import FavouriteButton from "./favourite-button";
+import { ILaunchPad } from "../models/launch-pad.model";
+import { ILaunch } from "../models/launch.model";
 
 export default function LaunchPad() {
-  let { launchPadId } = useParams();
+  let { launchPadId } = useParams<{ launchPadId: string }>();
   const { data: launchPad, error } = useSpaceX(`/launchpads/${launchPadId}`);
 
-  const { data: launches } = useSpaceX(launchPad ? "/launches/past" : null, {
+  const { data: launches } = useSpaceX(launchPad ? "/launches/past" : "", {
     limit: 3,
     order: "desc",
     sort: "launch_date_utc",
@@ -68,7 +70,7 @@ export default function LaunchPad() {
 const randomColor = (start = 200, end = 250) =>
   `hsl(${start + end * Math.random()}, 80%, 90%)`;
 
-function Header({ launchPad }) {
+function Header({ launchPad }: { launchPad: ILaunchPad }) {
   return (
     <Flex
       background={`linear-gradient(${randomColor()}, ${randomColor()})`}
@@ -100,7 +102,7 @@ function Header({ launchPad }) {
           {launchPad.successful_launches}/{launchPad.attempted_launches}{" "}
           successful
         </Badge>
-        {launchPad.stats === "active" ? (
+        {launchPad.status === "active" ? (
           <Badge colorScheme="green" fontSize={["sm", "md"]}>
             Active
           </Badge>
@@ -114,7 +116,7 @@ function Header({ launchPad }) {
   );
 }
 
-function LocationAndVehicles({ launchPad }) {
+function LocationAndVehicles({ launchPad }: { launchPad: ILaunchPad }) {
   return (
     <SimpleGrid columns={[1, 1, 2]} borderWidth="1px" p="4" borderRadius="md">
       <Stat>
@@ -142,19 +144,18 @@ function LocationAndVehicles({ launchPad }) {
   );
 }
 
-function Map({ location }) {
+function Map({ location }: { location: ILaunchPad["location"] }) {
   return (
     <AspectRatio ratio={16 / 5}>
       <Box
         as="iframe"
         src={`https://maps.google.com/maps?q=${location.latitude}, ${location.longitude}&z=15&output=embed`}
-        alt="demo"
       />
     </AspectRatio>
   );
 }
 
-function RecentLaunches({ launches }) {
+function RecentLaunches({ launches }: { launches: ILaunch[] }) {
   if (!launches?.length) {
     return null;
   }

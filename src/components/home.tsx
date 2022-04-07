@@ -12,7 +12,7 @@ export default function Home() {
   );
 }
 
-function PageLink({ url, children, ...rest }) {
+function PageLink({ url, children, ...rest }: { url: string; children: any }) {
   return (
     <Link as={BrowserLink} to={url} {...rest}>
       <Flex
