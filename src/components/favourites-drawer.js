@@ -2,32 +2,36 @@ import React from "react";
 
 import {
     Box,
-  Button,
-  Drawer,
-  DrawerBody,
-  DrawerCloseButton,
-  DrawerContent,
-  DrawerFooter,
-  DrawerHeader,
-  DrawerOverlay,
-  Stack,
-  Tab,
-  TabList,
-  TabPanel,
-  TabPanels,
-  Tabs,
+    Drawer,
+    DrawerBody,
+    DrawerCloseButton,
+    DrawerContent,
+    DrawerHeader,
+    DrawerOverlay,
+    Icon,
+    ScaleFade,
+    Stack,
+    Tab,
+    TabList,
+    TabPanel,
+    TabPanels,
+    Tabs,
 } from "@chakra-ui/react";
 import { FavouritesContext } from "./app";
 import { LaunchItem } from "./launches";
 import { LaunchPadItem } from "./launch-pads";
+import { Star } from "react-feather";
+import { motion, AnimatePresence } from "framer-motion";
 
 export default function FavouritesDrawer({ isOpen, onClose }) {
   return (
-    <Drawer isOpen={isOpen} placement="right" onClose={onClose}>
+    <Drawer isOpen={isOpen} placement="right" onClose={onClose} size="md">
       <DrawerOverlay />
       <DrawerContent>
         <DrawerCloseButton />
-        <DrawerHeader>Favourites</DrawerHeader>
+        <DrawerHeader>
+            Your Favourites
+        </DrawerHeader>
 
         <DrawerBody>
           <Tabs>
@@ -55,20 +59,31 @@ export function FavouriteLaunches() {
   return (
     <FavouritesContext.Consumer>
         {({ favouriteLaunches }) => {
-            return (
-                favouriteLaunches.length > 0 ?
-                (<Stack direction="column" spacing="4">
+            return favouriteLaunches.length > 0 ? (
+              <Stack direction="column" spacing="4">
+                <AnimatePresence>
                   {favouriteLaunches &&
-                    favouriteLaunches
-                      .map((launch, index) => (
+                    favouriteLaunches.map((launch, index) => (
+                      <motion.div
+                        key={launch.flight_number}
+                        launchPad={launch}
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                        exit={{ opacity: 0 }}
+                      >
                         <LaunchItem
                           launch={launch}
                           key={launch.flight_number}
                         />
-                      ))}
-                </Stack>)
-                :
-                (<Box display="flex" justifyContent="center" alignItems="center"> No Favourite Launches</Box>)
+                      </motion.div>
+                    ))}
+                </AnimatePresence>
+              </Stack>
+            ) : (
+              <Box display="flex" justifyContent="center" alignItems="center">
+                {" "}
+                No Favourite Launches
+              </Box>
             );
         }}
     </FavouritesContext.Consumer>
@@ -82,10 +97,23 @@ export function FavouritePads() {
       }) => {
         return favouriteLaunchPads.length > 0 ? (
           <Stack direction="column" spacing="4">
-            {favouriteLaunchPads &&
-              favouriteLaunchPads.map((launchPad, index) => (
-                <LaunchPadItem key={launchPad.site_id} launchPad={launchPad} />
-              ))}
+            <AnimatePresence>
+              {favouriteLaunchPads &&
+                favouriteLaunchPads.map((launchPad, index) => (
+                  <motion.div
+                    key={launchPad.site_id}
+                    launchPad={launchPad}
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    exit={{ opacity: 0 }}
+                  >
+                    <LaunchPadItem
+                      key={launchPad.site_id}
+                      launchPad={launchPad}
+                    />
+                  </motion.div>
+                ))}
+            </AnimatePresence>
           </Stack>
         ) : (
           <Box display="flex" justifyContent="center" alignItems="center">
