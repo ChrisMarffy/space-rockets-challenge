@@ -15,10 +15,10 @@ import {
     TabPanels,
     Tabs,
 } from "@chakra-ui/react";
-import { FavouritesContext } from "./app";
 import { LaunchItem } from "./launches";
 import { LaunchPadItem } from "./launch-pads";
 import { motion, AnimatePresence } from "framer-motion";
+import { FavouritesContext } from "./favourites-context";
 
 export default function FavouritesDrawer({ isOpen, onClose }) {
   return (
@@ -50,6 +50,10 @@ export default function FavouritesDrawer({ isOpen, onClose }) {
   );
 }
 
+/**
+ * Function that uses the favourites context to output a list of the favourites launches.
+ * @returns A vertical list of favourited launches or an empty state
+ */
 export function FavouriteLaunches() {
   return (
     <FavouritesContext.Consumer>
@@ -83,6 +87,11 @@ export function FavouriteLaunches() {
     </FavouritesContext.Consumer>
   );
 }
+
+/**
+ * Function that uses the favourites context to output a list of the favourites launch pads.
+ * @returns A vertical list of favourited launch pads or an empty state
+ */
 export function FavouritePads() {
   return (
     <FavouritesContext.Consumer>

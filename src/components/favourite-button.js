@@ -1,7 +1,7 @@
 import React, {useContext, useState, useEffect} from "react";
 import { IconButton, keyframes } from "@chakra-ui/react";
 import { Star } from "react-feather";
-import { FavouritesContext } from "./app";
+import { FavouritesContext } from "./favourites-context";
 
 const animationKeyframes = keyframes`
   0% { transform: scale(1); }
