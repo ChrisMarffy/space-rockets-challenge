@@ -83,7 +83,7 @@ function Header({ launchPad }) {
       justifyContent="space-between"
     >
       <Box position="absolute" top="5" right="5">
-        <FavouriteButton itemId={launchPad.site_id} type="pad" />
+        <FavouriteButton item={launchPad} type="pad" />
       </Box>
       <Heading
         color="gray.900"

@@ -4,7 +4,7 @@ import { Star } from "react-feather";
 import { FavouritesContext } from "./app";
 
 export default function FavouriteButton({
-  itemId,
+  item,
   type = 'launch'
 }) {
   return (
@@ -14,13 +14,20 @@ export default function FavouriteButton({
         const favouriteClicked = (e) => {
           e.preventDefault();
           if(type === 'launch'){
-            toggleFavouriteLaunch(itemId);
+            toggleFavouriteLaunch(item);
           }else if (type === "pad") {
-            toggleFavouritePad(itemId);
+            toggleFavouritePad(item);
           } 
         };
 
-        const isFavourite = type === 'launch' ? favouriteLaunches.includes(itemId): favouriteLaunchPads.includes(itemId);
+        const isFavourite =
+          type === "launch"
+            ? favouriteLaunches
+                .map((launch) => launch?.flight_number)
+                .includes(item.flight_number)
+            : favouriteLaunchPads
+                .map((launch) => launch?.site_id)
+                .includes(item.site_id);
         const variant = isFavourite ? "solid" : "outline";
 
         return (

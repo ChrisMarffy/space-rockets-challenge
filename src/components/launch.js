@@ -91,7 +91,7 @@ function Header({ launch }) {
         top="5"
         right="5"
       >
-        <FavouriteButton itemId={launch.flight_number} type="launch" />
+        <FavouriteButton item={launch} type="launch" />
       </Box>
       <Heading
         color="white"
@@ -123,7 +123,6 @@ function Header({ launch }) {
 }
 
 function TimeAndLocation({ launch }) {
-  console.log('launch', launch)
   return (
     <SimpleGrid columns={[1, 1, 2]} borderWidth="1px" p="4" borderRadius="md">
       <Stat>

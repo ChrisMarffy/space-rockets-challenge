@@ -42,7 +42,7 @@ export default function LaunchPads() {
   );
 }
 
-function LaunchPadItem({ launchPad }) {
+export function LaunchPadItem({ launchPad }) {
   return (
     <Box
       as={Link}
@@ -91,7 +91,7 @@ function LaunchPadItem({ launchPad }) {
         </Text>
       </Box>
       <Box p="6">
-        <FavouriteButton itemId={launchPad.site_id} type="pad" />
+        <FavouriteButton item={launchPad} type="pad" />
       </Box>
     </Box>
   );

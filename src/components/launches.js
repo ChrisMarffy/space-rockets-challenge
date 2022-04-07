@@ -124,7 +124,7 @@ export function LaunchItem({ launch }) {
           </Box>
           <Box maxWidth={70}>
             <FavouriteButton
-              itemId={launch.flight_number}
+              item={launch}
               type='launch'
             />
           </Box>

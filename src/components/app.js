@@ -1,68 +1,70 @@
-import React from "react";
+import React, { useState } from "react";
 import { Routes, Route } from "react-router-dom";
-import { Flex, Text } from "@chakra-ui/react";
+import { Button, Flex, Text, useDisclosure } from "@chakra-ui/react";
 
 import Launches from "./launches";
 import Launch from "./launch";
 import Home from "./home";
 import LaunchPads from "./launch-pads";
 import LaunchPad from "./launch-pad";
+import FavouritesDrawer from "./favourites-drawer";
+import { Star } from "react-feather";
 
 export const FavouritesContext = React.createContext();
 
-export default class App extends React.Component {
-  constructor(props) {
-    super(props);
+export default function App () {
 
-    this.toggleFavouriteLaunch = (id) => {
-      const isFavourite = this.state.favouriteLaunches.includes(id);
-      let newFavourites = this.state.favouriteLaunches;
+  const storedFavLaunches = localStorage.getItem("favouriteLaunches");
+  const storedFavLaunchPads = localStorage.getItem("favouriteLaunchPads");
+  const [favouriteLaunches, setFavouriteLaunches] = useState(storedFavLaunches ? JSON.parse(storedFavLaunches) : []);
+  const [favouriteLaunchPads, setFavouriteLaunchPads] = useState(storedFavLaunchPads ? JSON.parse(storedFavLaunchPads) : []);
+
+  
+
+  const toggleFavouriteLaunch = (launch) => {
+      const isFavourite = favouriteLaunches
+        .map((launch) => launch?.flight_number)
+        .includes(launch.flight_number);
+      let newFavourites = favouriteLaunches;
 
       if (isFavourite) {
-        newFavourites = newFavourites.filter((launchID) => launchID !== id);
+        newFavourites = newFavourites.filter(
+          (favLaunch) => favLaunch.flight_number !== launch.flight_number
+        );
       } else {
-        newFavourites.push(id);
+        newFavourites.push(launch);
       }
-      this.setState((state) => ({
-        favouriteLaunches: newFavourites,
-      }));
+      setFavouriteLaunches([...newFavourites]);
       localStorage.setItem("favouriteLaunches", JSON.stringify(newFavourites));
     };
 
-    this.toggleFavouritePad = (id) => {
-      const isFavourite = this.state.favouriteLaunchPads.includes(id);
-      let newFavourites = this.state.favouriteLaunchPads;
+  const toggleFavouritePad = (pad) => {
+      const isFavourite = favouriteLaunchPads
+        .map((launch) => launch?.site_id)
+        .includes(pad.site_id);
+      let newFavourites = favouriteLaunchPads;
 
       if (isFavourite) {
-        newFavourites = newFavourites.filter((launchID) => launchID !== id);
+        newFavourites = newFavourites.filter(
+          (favPad) => favPad.site_id !== pad.site_id
+        );
       } else {
-        newFavourites.push(id);
+        newFavourites.push(pad);
       }
-      this.setState((state) => ({
-        favouriteLaunchPads: newFavourites,
-      }));
+      setFavouriteLaunchPads([...newFavourites]);
       localStorage.setItem(
         "favouriteLaunchPads",
         JSON.stringify(newFavourites)
       );
     };
+      
+    const { isOpen, onOpen, onClose } = useDisclosure();
 
-    const storedFavLaunches = localStorage.getItem("favouriteLaunches");
-    const storedFavLaunchPads = localStorage.getItem("favouriteLaunchPads");
-    console.log(storedFavLaunches, storedFavLaunchPads);
-    this.state = {
-      favouriteLaunches: storedFavLaunches ? JSON.parse(storedFavLaunches) : [],
-      favouriteLaunchPads: storedFavLaunchPads ? JSON.parse(storedFavLaunchPads) : [],
-      toggleFavouriteLaunch: this.toggleFavouriteLaunch,
-      toggleFavouritePad: this.toggleFavouritePad,
-    };
-  }
-
-  render() {
     return (
-      <FavouritesContext.Provider value={this.state}>
+      <FavouritesContext.Provider value={{favouriteLaunches, favouriteLaunchPads, toggleFavouriteLaunch, toggleFavouritePad}}>
+        <FavouritesDrawer isOpen={isOpen} onClose={onClose}></FavouritesDrawer>
         <div>
-          <NavBar />
+          <NavBar onFavouritesOpen={onOpen}/>
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/launches" element={<Launches />} />
@@ -73,10 +75,9 @@ export default class App extends React.Component {
         </div>
       </FavouritesContext.Provider>
     );
-  }
 }
 
-function NavBar() {
+function NavBar({onFavouritesOpen}) {
   return (
     <Flex
       as="nav"
@@ -95,6 +96,14 @@ function NavBar() {
       >
         ¡SPACE·R0CKETS!
       </Text>
+      <Button
+        leftIcon={<Star />}
+        colorScheme="teal"
+        variant="solid"
+        onClick={onFavouritesOpen}
+      >
+        Favourites
+      </Button>
     </Flex>
   );
 }
