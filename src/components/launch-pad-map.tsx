@@ -5,7 +5,7 @@ import { MapContainer, TileLayer, Marker } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
 import { Target } from "react-feather";
 import { ILaunchPad } from "../models/launch-pad.model";
-import { Router, useNavigate } from "react-router";
+import { useNavigate } from "react-router";
 
 export default function LaunchPadMap({
   launchPads,
