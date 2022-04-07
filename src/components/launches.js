@@ -1,5 +1,5 @@
 import React from "react";
-import { Badge, Box, Image, SimpleGrid, Text, Flex } from "@chakra-ui/react";
+import { Badge, Box, Image, SimpleGrid, Text, Flex, useDisclosure } from "@chakra-ui/react";
 import { format as timeAgo } from "timeago.js";
 import { Link } from "react-router-dom";
 
@@ -47,7 +47,6 @@ export default function Launches() {
 }
 
 export function LaunchItem({ launch }) {
-
   return (
     <Box
       as={Link}
@@ -57,6 +56,7 @@ export function LaunchItem({ launch }) {
       rounded="lg"
       overflow="hidden"
       position="relative"
+      display="block"
     >
       <Image
         src={
@@ -123,10 +123,7 @@ export function LaunchItem({ launch }) {
             </Flex>
           </Box>
           <Box maxWidth={70}>
-            <FavouriteButton
-              item={launch}
-              type='launch'
-            />
+            <FavouriteButton item={launch} type="launch" />
           </Box>
         </Flex>
       </Box>

@@ -8,8 +8,6 @@ import {
     DrawerContent,
     DrawerHeader,
     DrawerOverlay,
-    Icon,
-    ScaleFade,
     Stack,
     Tab,
     TabList,
@@ -20,7 +18,6 @@ import {
 import { FavouritesContext } from "./app";
 import { LaunchItem } from "./launches";
 import { LaunchPadItem } from "./launch-pads";
-import { Star } from "react-feather";
 import { motion, AnimatePresence } from "framer-motion";
 
 export default function FavouritesDrawer({ isOpen, onClose }) {
@@ -29,9 +26,7 @@ export default function FavouritesDrawer({ isOpen, onClose }) {
       <DrawerOverlay />
       <DrawerContent>
         <DrawerCloseButton />
-        <DrawerHeader>
-            Your Favourites
-        </DrawerHeader>
+        <DrawerHeader>Your Favourites</DrawerHeader>
 
         <DrawerBody>
           <Tabs>
@@ -45,7 +40,7 @@ export default function FavouritesDrawer({ isOpen, onClose }) {
                 <FavouriteLaunches />
               </TabPanel>
               <TabPanel>
-                <FavouritePads />
+                <FavouritePads  />
               </TabPanel>
             </TabPanels>
           </Tabs>
@@ -66,7 +61,6 @@ export function FavouriteLaunches() {
                     favouriteLaunches.map((launch, index) => (
                       <motion.div
                         key={launch.flight_number}
-                        launchPad={launch}
                         initial={{ opacity: 0 }}
                         animate={{ opacity: 1 }}
                         exit={{ opacity: 0 }}
@@ -92,9 +86,7 @@ export function FavouriteLaunches() {
 export function FavouritePads() {
   return (
     <FavouritesContext.Consumer>
-      {({
-        favouriteLaunchPads
-      }) => {
+      {({ favouriteLaunchPads }) => {
         return favouriteLaunchPads.length > 0 ? (
           <Stack direction="column" spacing="4">
             <AnimatePresence>
@@ -102,7 +94,6 @@ export function FavouritePads() {
                 favouriteLaunchPads.map((launchPad, index) => (
                   <motion.div
                     key={launchPad.site_id}
-                    launchPad={launchPad}
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
                     exit={{ opacity: 0 }}
