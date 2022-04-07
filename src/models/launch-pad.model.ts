@@ -10,7 +10,7 @@ export interface ILaunchPad {
   location: {
     name: string;
     region: string;
-    latitude: string;
-    longitude: string;
+    latitude: number;
+    longitude: number;
   };
 }

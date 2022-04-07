@@ -14,7 +14,7 @@ import Home from "./home";
 import LaunchPads from "./launch-pads";
 import LaunchPad from "./launch-pad";
 import FavouritesDrawer from "./favourites-drawer";
-import { Moon, Star, Sun, Sunrise, Sunset } from "react-feather";
+import { Moon, Star, Sun } from "react-feather";
 import AppFavouritesContext from "./favourites-context";
 
 export default function App() {
